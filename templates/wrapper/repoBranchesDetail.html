@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}
+Repository Branches
+{% endblock %}
+
+{% block content %}
+    <form method="GET">
+        {% for remote in remotes %}
+            <div><h3>{{ remote.info.name }}</h3>
+                {% if remote.can_create_pr %}
+                    <a href="">Create pr</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </form>
+{% endblock %}

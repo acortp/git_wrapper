@@ -4,7 +4,9 @@ Users login
 {% endblock %}
 
 {% block content %}
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Login">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Login">
+    </form>
 {% endblock %}
