@@ -1,9 +1,1 @@
-{
-  "repo_path": "",
-  "print_commits": 5,
-  "git_pulls_apis": {
-    "github": "https://github.com/api/v3/repos/{0}/{1}/pulls"
-  },
-  "project_name": "",
-  "repo_name": ""
-}
+{"repo_path": "myRepopath", "print_commits": 5, "git_pull_apis": {"github": "https://github.com/api/v3/repos/{0}/{1}/pulls"}, "api": "github", "project_name": "test", "repo_name": "wrapper", "main_branch": "mainBranch"}
