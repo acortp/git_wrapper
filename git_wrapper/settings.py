@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,8 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'git_wrapper',
-    'users'
+    'users',
+    'wrapper',
 ]
+
+AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -124,4 +126,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'users.User'
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'git_wrapper.settings')
+
+DJANGO_ADMIN_NAME = "ariadna"
+DJANGO_ADMIN_EMAIL = "ariadna@email.com"
+DJANGO_ADMIN_PASSWORD = "ariadna123"
+ADMIN_GIT_TOKEN = ""
+
