@@ -13,4 +13,4 @@ class SignUpForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'password', 'github_user']
+        fields = ['username', 'password', 'git_access_token']

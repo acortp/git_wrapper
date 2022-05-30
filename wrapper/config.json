@@ -1,0 +1,9 @@
+{
+  "repo_path": "",
+  "print_commits": 5,
+  "git_pulls_apis": {
+    "github": "https://github.com/api/v3/repos/{0}/{1}/pulls"
+  },
+  "project_name": "",
+  "repo_name": ""
+}

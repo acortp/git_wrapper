@@ -3,4 +3,4 @@ from django.db import models
 
 
 class User(AbstractUser):
-    github_user = models.CharField(null=False, blank=False, max_length=300)
+    git_access_token = models.TextField(null=False, blank=False)
