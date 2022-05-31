@@ -4,9 +4,17 @@ Home
 {% endblock %}
 
 {% block content %}
+    <h1>Welcome {{ user.username }}</h1>
+    <a href="/users/edit_user/">Edit profile</a>
+    <br>
     <a href="/wrapper/configuration/">Edit configurations</a>
     <br>
-    <a href="/wrapper/branches/">See remote branches</a>
+    <a href="/wrapper/branches/">See branches</a>
+    <br>
+    <a href="/users/create_user/">Add user</a>
     <br>
     <a href="/users/logout/">LogOut</a>
+{% endblock %}
+
+{% block home %}
 {% endblock %}

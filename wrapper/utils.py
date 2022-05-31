@@ -30,3 +30,10 @@ def save_configuration(raw_data) -> None:
 def get_api_choices() -> (Any, Any):
     choices = [(key, key) for key, val in settings.GIT_CONFIG["git_pull_apis"].items()]
     return choices
+
+
+def set_errors_form(request: Any, form: Any) -> Any:
+    text_dict = json.loads(request.text)
+    for error in text_dict.get('errors'):
+        form.add_error('title', error.get('message'))
+    return form
