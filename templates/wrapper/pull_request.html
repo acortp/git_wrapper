@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}
+{{ action }} pull request for {{ head }}
+{% endblock %}
+
+
+{% block content %}
+    <h1>{{ action }} pull request</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value={{ action }}>
+
+    </form>
+{% endblock %}

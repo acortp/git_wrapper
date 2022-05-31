@@ -2,9 +2,11 @@ from django.db import models
 
 from users.models import User
 
-PR_STATES = \
-    (('open', 'open'),
-    ('merged', 'merged'))
+PR_STATES = (
+    ('open', 'open'),
+    ('merged', 'merged'),
+    ('merging', 'merging')
+)
 
 
 class PullRequest(models.Model):

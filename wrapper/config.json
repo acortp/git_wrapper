@@ -1,1 +1,1 @@
-{"repo_path": "C:\\Users\\acort\\OneDrive\\Documents\\Projects\\interviews\\git_wrapper", "print_commits": 5, "git_pull_apis": {"github": "https://github.com/api/v3/repos/{0}/{1}/pulls"}, "api": "github", "project_name": "wrapper_test", "repo_name": "git_wrapper", "main_branch": "main"}
+{"repo_path": "C:\\Users\\acort\\OneDrive\\Documents\\Projects\\interviews\\git_wrapper", "print_commits": 5, "git_pull_apis": {"github": "https://api.github.com/repos/acortp/{0}/pulls"}, "api": "github", "project_name": "wrapper_test", "repo_name": "git_wrapper", "main_branch": "main"}
