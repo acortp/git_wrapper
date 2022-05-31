@@ -5,10 +5,10 @@ Repository Branches
 
 {% block content %}
     <form method="GET">
-        {% for remote in remotes %}
-            <div><h3>{{ remote.info.name }}</h3>
-                {% if remote.can_create_pr %}
-                    <a href="">Create pr</a>
+        {% for branch in branches %}
+            <div><h3>{{ branch.info.name }}</h3>
+                {% if branch.can_create_pr %}
+                    <a href="/wrapper/create_pr/{{ branch.info.name }}">Create pr</a>
                 {% endif %}
             </div>
         {% endfor %}
