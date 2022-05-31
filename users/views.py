@@ -3,7 +3,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.views.generic import FormView, TemplateView
 
-from users.forms import LoginForm, SignUpForm
+from users.forms import LoginForm, UserForm, EditUserForm
+from users.models import User
 
 
 class LoginView(FormView):
@@ -18,6 +19,7 @@ class LoginView(FormView):
         login(self.request, user)
         return super().form_valid(form)
 
+
 class LogoutView(LoginRequiredMixin, TemplateView):
     template_name = 'users/login.html'
 
@@ -26,10 +28,46 @@ class LogoutView(LoginRequiredMixin, TemplateView):
         return redirect('/users/login/')
 
 
-class SignUpView(LoginRequiredMixin, FormView):
+class CreateUserView(LoginRequiredMixin, FormView):
     login_url = '/users/login/'
-    form_class = SignUpForm
+    form_class = UserForm
     template_name = 'users/signUp.html'
+    success_url = '/users/home/'
+
+    def form_valid(self, form):
+        user = User.objects.create(username=self.request.POST['username'],
+                                   git_access_token=self.request.POST['git_access_token'],
+                                   email=self.request.POST['email'])
+        user.set_password(self.request.POST['password'])
+        user.save()
+        return super().form_valid(form)
+
+
+class EditUserView(LoginRequiredMixin, FormView):
+    login_url = '/users/login/'
+    form_class = EditUserForm
+    template_name = 'users/signUp.html'
+    success_url = '/users/home/'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial.update({
+            'password': self.request.user.password,
+            'git_access_token': self.request.user.git_access_token,
+            'email': self.request.user.email
+        })
+        return initial
+
+    def form_valid(self, form):
+        user = self.request.user
+        user.git_access_token = self.request.POST['git_access_token']
+        user.email = self.request.POST['email']
+
+        user.set_password(self.request.POST['password'])
+        user.save()
+
+        login(self.request, user)
+        return super().form_valid(form)
 
 
 class HomeView(LoginRequiredMixin, TemplateView):

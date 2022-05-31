@@ -9,5 +9,11 @@
 <body>
     {% block content %}
     {% endblock %}
+
+    {% block home %}
+        {% if user %}
+            <a href="/users/home/">Go to Home</a>
+        {% endif %}
+    {% endblock %}
 </body>
 </html>

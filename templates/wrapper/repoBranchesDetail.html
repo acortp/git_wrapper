@@ -6,11 +6,14 @@ Repository Branches
 {% block content %}
     <form method="GET">
         {% for branch in branches %}
-            <div><h3>{{ branch.info.name }}</h3>
-                {% if branch.can_create_pr %}
-                    <a href="/wrapper/create_pr/{{ branch.info.name }}">Create pr</a>
-                {% endif %}
-            </div>
+            <ul>
+                <li><h3>{{ branch.info.name }}
+                    {% if branch.can_create_pr %}
+                        <a href="/wrapper/create_pr/{{ branch.info.name }}">->  create pr</a>
+                    {% endif %}
+                    </h3>
+                </li>
+            </ul>
         {% endfor %}
     </form>
 {% endblock %}

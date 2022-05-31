@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib.auth import authenticate
-from django.core.exceptions import ValidationError
 
 from users.models import User
+from users.validators import unique_user
 
 
 class LoginForm(forms.Form):
@@ -25,9 +25,18 @@ class LoginForm(forms.Form):
             return True
 
 
-class SignUpForm(forms.ModelForm):
+class UserForm(forms.ModelForm):
+    username = forms.CharField(required=True, validators=[unique_user])
     password = forms.CharField(required=True, widget=forms.PasswordInput)
 
     class Meta:
         model = User
-        fields = ['username', 'password', 'git_access_token']
+        fields = ['username', 'password', 'email', 'git_access_token']
+
+
+class EditUserForm(forms.ModelForm):
+    password = forms.CharField(required=True, widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ['password', 'email', 'git_access_token']

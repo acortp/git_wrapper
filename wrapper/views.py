@@ -9,8 +9,7 @@ from wrapper import settings
 from wrapper.forms import EditConfigForm, PullRequestForm
 from wrapper.mixins import GetConfigMixin
 from wrapper.models import PullRequest, PR_STATES
-from wrapper.utils import save_configuration
-
+from wrapper.utils import save_configuration, set_errors_form
 
 SSH_CMD = 'ssh -i id_deployment_key'
 
@@ -56,6 +55,7 @@ class CreatePullRequestView(LoginRequiredMixin, GetConfigMixin, FormView):
     form_class = PullRequestForm
     login_url = '/users/login/'
     template_name = 'wrapper/pull_request.html'
+    success_url = '/wrapper/branches/'
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data()
@@ -89,10 +89,10 @@ class CreatePullRequestView(LoginRequiredMixin, GetConfigMixin, FormView):
             git_request = requests.post(api_url, headers=headers, data=json.dumps(details))
 
             if not git_request.ok:
-                text_dict = json.loads(git_request.text)
-                for error in text_dict.get('errors'):
-                    form.add_error('title', error.get('message'))
+                set_errors_form(git_request, form)
                 return self.form_invalid(form)
+
+            pr_data = json.loads(git_request.text)
 
             pr = PullRequest.objects.create(
                 title=self.request.POST['title'],
@@ -100,11 +100,34 @@ class CreatePullRequestView(LoginRequiredMixin, GetConfigMixin, FormView):
                 user=self.request.user,
                 main_branch=main_branch,
                 head_branch=self.kwargs['branch_name'],
+                link=pr_data.get('url'),
+                git_id=pr_data.get('number'),
                 state='open'
             )
 
             if self.request.POST['save_state'] == 'merge':
-                pass
+                merge_api = settings.GIT_CONFIG['merge_api']
+                merge_url = merge_api.format(repo_name, pr.git_id)
+
+                merge_details = {
+                    'commit_title': self.request.POST['title'],
+                    'commit_message': self.request.POST['description']
+                }
+
+                git_merge_request = requests.put(
+                    merge_url,
+                    headers=headers,
+                    data=json.dumps(merge_details)
+                )
+
+                if not git_merge_request.ok:
+                    form = set_errors_form(git_merge_request, form)
+                    pr.state = 'merging'
+                    pr.save()
+                    return self.form_invalid(form)
+
+                pr.state = 'merged'
+                pr.save()
 
         except Exception as ex:
             form.add_error(None, ex.__str__())
